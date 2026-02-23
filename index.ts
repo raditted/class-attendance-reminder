@@ -128,7 +128,10 @@ const buildMessage = (session: Session, day: string): string => {
     `*Ruangan*: ${session.room}`,
     `*Jam*    : ${start} - ${end}`,
     ``,
-    `Attendance Link:\n*https://akademik.polban.ac.id/*`,
+    `Attendance Link:`,
+    `*https://akademik.polban.ac.id/*`,
+    ``,
+    `> Janlup absen twin! >//<`
   ].join("\n");
 };
 
