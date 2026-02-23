@@ -50,16 +50,19 @@ const GO_WA_AUTH = `Basic ${btoa(`${GO_WA_USER}:${GO_WA_PASS}`)}`;
 const buildMessage = (session: Session, day: string): string => {
   const typeLabel = session.type === "TE" ? "Teori" : "Praktikum";
   const [start, end] = session.time.split("-");
-  return [
-    `⚠️ *THIS IS TEST* ⚠️`,
+   return [
+    `⚠️ *ALERTA ALERTA* ⚠️`,
     ``,
     `*Matkul* : ${session.course_name}`,
     `*Tipe*   : ${typeLabel}`,
     `*Dosen*  : ${session.lecturer}`,
     `*Ruangan*: ${session.room}`,
-    `*Jam*    : ${start} – ${end}`,
+    `*Jam*    : ${start} - ${end}`,
     ``,
-    `📋 *Janlup isi absensi!*`,
+    `Attendance Link:`,
+    `*https://example.com/*`,
+    ``,
+    `> Janlup absen twin! >//<`
   ].join("\n");
 };
 
