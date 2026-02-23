@@ -1,15 +1,3 @@
-/*
-* Bot Pengingat Absen Kelas 1A-D3
-* Runtime : Bun JS
-* Dependency: croner (job scheduler)
-*
-* Install deps:
-*   bun add croner
-*
-* Run:
-*   bun run index.ts
-*/
-
 import { Cron } from "croner";
 
 /*
@@ -19,14 +7,14 @@ interface Session {
   time: string;        // "HH.MM-HH.MM"
   course_code: string;
   course_name: string;
-  type: "TE" | "PR";  // TE = Teori (Theory), PR = Praktikum (Practical)
+  type: "TE" | "PR";  // TE = Theory, PR = Practical
   lecturer_code: string;
   lecturer: string;
   room: string;
 }
 
 interface DaySchedule {
-  day: string;         // "SENIN" (Monday) | "SELASA" (Tuesday) | dst (etc. fuhh naw)
+  day: string;         // "SENIN" (Monday) | "SELASA" (Tuesday) | etc.
   sessions: Session[];
 }
 
@@ -42,15 +30,17 @@ interface Schedule {
 */
 const API_URL    = process.env.GO_WA_API_URL ?? "http://localhost:1100/send/message";
 const GROUP_JID  = process.env.GROUP_JID;
-const GO_WA_AUTH = process.env.GO_WA_AUTH ?? "";
+const GO_WA_USER = process.env.GO_WA_USERNAME ?? "";
+const GO_WA_PASS = process.env.GO_WA_PASSWORD ?? "";
+const GO_WA_AUTH = `Basic ${btoa(`${GO_WA_USER}:${GO_WA_PASS}`)}`;
 
 if (!GROUP_JID) {
   console.error("err: Can't find GROUP_JID in .env!");
   process.exit(1);
 }
 
-if (!GO_WA_AUTH) {
-  console.error("err: Can't find GO_WA_AUTH in .env!");
+if (!GO_WA_USER || !GO_WA_PASS) {
+  console.error("err: Can't find GO_WA_USERNAME or GO_WA_PASSWORD in .env!");
   process.exit(1);
 }
 
@@ -136,9 +126,9 @@ const buildMessage = (session: Session, day: string): string => {
     `*Tipe*   : ${typeLabel}`,
     `*Dosen*  : ${session.lecturer}`,
     `*Ruangan*: ${session.room}`,
-    `*Jam*    : ${start} – ${end}`,
+    `*Jam*    : ${start} - ${end}`,
     ``,
-    `📋 *https://akademik.polban.ac.id/*`,
+    `Attendance Link:\n*https://akademik.polban.ac.id/*`,
   ].join("\n");
 };
 
