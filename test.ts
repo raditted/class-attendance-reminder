@@ -41,7 +41,9 @@ interface Schedule {
 const scheduleData: Schedule = await Bun.file("./data/schedule.json").json();
 const API_URL    = process.env.GO_WA_API_URL ?? "http://localhost:1100/send/message"; // default port is 3000 btw
 const GROUP_JID  = process.env.GROUP_JID;
-const GO_WA_AUTH = process.env.GO_WA_AUTH ?? "";
+const GO_WA_USER = process.env.GO_WA_USERNAME ?? "";
+const GO_WA_PASS = process.env.GO_WA_PASSWORD ?? "";
+const GO_WA_AUTH = `Basic ${btoa(`${GO_WA_USER}:${GO_WA_PASS}`)}`;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
