@@ -1,0 +1,11 @@
+services:
+  class-attendance-reminder:
+    build: .
+    container_name: class-attendance-reminder
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data/schedule.json:/app/data/schedule.json:ro
+    environment:
+      - TZ=Asia/Jakarta
