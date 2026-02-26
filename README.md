@@ -1,4 +1,4 @@
-# 🔔 class-attendance-reminder
+# class-attendance-reminder
 
 A WhatsApp attendance reminder bot for class 1A-D3, built with Bun JS. Automatically sends a message to a WhatsApp group at the start of each class session based on a schedule file.
 
@@ -9,7 +9,7 @@ A WhatsApp attendance reminder bot for class 1A-D3, built with Bun JS. Automatic
 
 ---
 
-## 🧠 How It Works
+## How It Works
 
 Every minute, the bot reads the current day and time from the system clock, then looks up `data/schedule.json` for any session starting at that exact time. If a match is found, it sends a reminder message to the configured WhatsApp group via the Go-WA REST API.
 
@@ -17,7 +17,7 @@ Every minute, the bot reads the current day and time from the system clock, then
 - An in-memory cache prevents duplicate sends within the same day.
 - Schedule data is loaded once at startup. Restart the bot after editing `schedule.json`.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 .
@@ -30,7 +30,7 @@ Every minute, the bot reads the current day and time from the system clock, then
 └── .env.example
 ```
 
-## ⚙️ Setup
+## Setup
 
 ### 1. Requirements
 
@@ -58,9 +58,9 @@ Edit `.env` with your values:
 | `GO_WA_PASSWORD` | Go-WA Basic Auth password |
 | `GROUP_JID` | WhatsApp group ID (format: `number@g.us`) |
 
-> 💡 **Finding `GROUP_JID`:** Open the Go-WA web UI, send a message to your group, then inspect the network request: the `phone` field in the payload is your group ID.
+> **Finding `GROUP_JID`:** Open the Go-WA web UI, send a message to your group, then inspect the network request: the `phone` field in the payload is your group ID.
 
-> 💡 **Finding credentials:** Check how Go-WA was started on your server. The `--basic-auth` flag or `APP_BASIC_AUTH` environment variable contains `username:password`.
+> **Finding credentials:** Check how Go-WA was started on your server. The `--basic-auth` flag or `APP_BASIC_AUTH` environment variable contains `username:password`.
 
 ### 4. Run the bot
 
@@ -68,7 +68,7 @@ Edit `.env` with your values:
 bun run start
 ```
 
-## 🧪 Testing
+## Testing
 
 Before running the bot in production, use `test.ts` to verify everything works:
 
@@ -110,7 +110,7 @@ Upcoming after that:
   ▶ RABU   09.20  Matematika Diskrit 1  (25h 20m from now)
 ```
 
-## 📝 Example Message
+## Example Message
 
 ```
 ⚠️ ALERTA ALERTA ⚠️
@@ -178,6 +178,6 @@ pm2 restart class-attendance-reminder # restart (required after editing schedule
 pm2 stop class-attendance-reminder   # stop the bot
 ```
 
-## 📄 License
+## License
 
 MIT
