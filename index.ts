@@ -79,18 +79,19 @@ const getCurrentTime = (): string => {
   return `${hh.padStart(2, "0")}.${mm.padStart(2, "0")}`;
 };
 
-// Search for sessions that start now, one per "course_code"  (first session only)
+// Search for sessions that start now, one per "course_code" and "type" (first session only)
 const findSessionsToNotify = (day: string, currentTime: string): Session[] => {
   const todaySchedule = scheduleData.schedule.find((d) => d.day === day);
   if (!todaySchedule) return [];
 
-  const seenCourseCodes = new Set<string>();
+  const seenCourseKeys = new Set<string>();
   const result: Session[] = [];
 
   for (const session of todaySchedule.sessions) {
     const sessionStart = session.time.split("-")[0];
-    if (sessionStart === currentTime && !seenCourseCodes.has(session.course_code)) {
-      seenCourseCodes.add(session.course_code);
+    const courseKey = `${session.course_code}-${session.type}`;
+    if (sessionStart === currentTime && !seenCourseKeys.has(courseKey)) {
+      seenCourseKeys.add(courseKey);
       result.push(session);
     }
   }
@@ -172,7 +173,7 @@ const checkAndNotify = async (): Promise<void> => {
   const sessions = findSessionsToNotify(today, now);
 
   for (const session of sessions) {
-    const cacheKey = `${today}-${session.course_code}`;
+    const cacheKey = `${today}-${session.course_code}-${session.type}`;
 
     if (sentCache.has(cacheKey)) continue;
 
