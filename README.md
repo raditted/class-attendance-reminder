@@ -17,19 +17,6 @@ Every minute, the bot reads the current day and time from the system clock, then
 - An in-memory cache prevents duplicate sends within the same day.
 - Schedule data is loaded once at startup. Restart the bot after editing `schedule.json`.
 
-## Project Structure
-
-```
-.
-├── data/
-│   └── schedule.json     - Class schedule data
-├── index.ts              - Main bot script
-├── test.ts               - Testing utilities
-├── package.json
-├── .env                  - Your config (created from .env.example)
-└── .env.example
-```
-
 ## Setup
 
 ### 1. Requirements
@@ -51,12 +38,12 @@ cp .env.example .env
 
 Edit `.env` with your values:
 
-| Variable | Description |
-|---|---|
-| `GO_WA_API_URL` | Full URL to the Go-WA send message endpoint |
-| `GO_WA_USERNAME` | Go-WA Basic Auth username |
-| `GO_WA_PASSWORD` | Go-WA Basic Auth password |
-| `GROUP_JID` | WhatsApp group ID (format: `number@g.us`) |
+| Variable         | Description                                 |
+| ---------------- | ------------------------------------------- |
+| `GO_WA_API_URL`  | Full URL to the Go-WA send message endpoint |
+| `GO_WA_USERNAME` | Go-WA Basic Auth username                   |
+| `GO_WA_PASSWORD` | Go-WA Basic Auth password                   |
+| `GROUP_JID`      | WhatsApp group ID (format: `number@g.us`)   |
 
 > **Finding `GROUP_JID`:** Open the Go-WA web UI, send a message to your group, then inspect the network request: the `phone` field in the payload is your group ID.
 
@@ -121,7 +108,7 @@ Dosen  : Wendi Wirasta
 Ruangan: D107-Lab. RPL
 Jam    : 09.20 – 10.00
 
-Attendance Link: 
+Attendance Link:
 https://akademik.polban.ac.id/
 ```
 
