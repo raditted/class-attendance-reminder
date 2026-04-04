@@ -66,7 +66,7 @@ const buildMessage = (session: Session, day: string): string => {
   ].join("\n");
 };
 
-/** Get the first session per course_code for a specific day & time */
+/** Get the first session per course_code and type for a specific day & time */
 const findSessions = (day: string, time: string): Session[] => {
   const todaySchedule = scheduleData.schedule.find((d) => d.day === day);
   if (!todaySchedule) return [];
@@ -76,8 +76,9 @@ const findSessions = (day: string, time: string): Session[] => {
 
   for (const session of todaySchedule.sessions) {
     const sessionStart = session.time.split("-")[0];
-    if (sessionStart === time && !seen.has(session.course_code)) {
-      seen.add(session.course_code);
+    const courseKey = `${session.course_code}-${session.type}`;
+    if (sessionStart === time && !seen.has(courseKey)) {
+      seen.add(courseKey);
       result.push(session);
     }
   }
@@ -220,6 +221,8 @@ const testSimulate = async (): Promise<void> => {
     const dayData = scheduleData.schedule.find((d) => d.day === day);
     if (!dayData) continue;
 
+    const seen = new Set<string>();
+
     const uniqueStartTimes = [
       ...new Set(dayData.sessions.map((s) => s.time.split("-")[0]))
     ].sort();
@@ -229,6 +232,10 @@ const testSimulate = async (): Promise<void> => {
     for (const time of uniqueStartTimes) {
       const sessions = findSessions(day, time);
       for (const s of sessions) {
+        const courseKey = `${s.course_code}-${s.type}`;
+        if (seen.has(courseKey)) continue;
+        seen.add(courseKey);
+
         const typeLabel = s.type === "TE" ? "Teori    " : "Praktikum";
         console.log(
           `  ${c.green}▶ ${time}${c.reset}  ${typeLabel}  ${c.bold}${s.course_name}${c.reset}  ${c.dim}(${s.room})${c.reset}`
@@ -308,8 +315,9 @@ const testNext = async (): Promise<void> => {
 
       const sessions = findSessions(day, time);
       for (const s of sessions) {
-        if (seen.has(s.course_code)) continue;
-        seen.add(s.course_code);
+        const courseKey = `${s.course_code}-${s.type}`;
+        if (seen.has(courseKey)) continue;
+        seen.add(courseKey);
 
         // Minutes from now (add 1440 * day offset for future days)
         const minutesFromNow = (i * 1440) + sessionMinutes - (i === 0 ? currentMinutes : 0);
